@@ -4,15 +4,25 @@ var userCharEmpty = true;
 var enemyCharEmpty = true;
 
 function Character(name, health, attack, img) {
-this.name = name;
-this.health = health;
-this.attack = attack;
-this.img = img;
-this.createImage = function(){
-    return '<img id="' + this.name + '" class="char-image col-md-12" src="' + this.img + '">'
-};
-
+    this.name = name;
+    this.health = health;
+    this.attack = attack;
+    this.img = img;
+    this.createImage = function(){
+        return '<img id="' + this.name + '" class="char-image col-md-12" src="' + this.img + '">'
+    };
+    this.createName = function(){
+        return '<p>' + this.name + '</p>';
+    };
+    this.createHP = function(){
+        return this.health;
+    };
 }
+
+var GoodGuy = {};
+var BadGuy = {};
+
+
 
 var nerdBob = new Character('NerdBob', 80, 20, "assets/images/NerdBob.jpg");
 var doodleBob = new Character('DoodleBob', 80, 20, "assets/images/DoodleBob.jpg");
@@ -38,8 +48,13 @@ $('#NerdBob').on('click', function(){
     if (userCharEmpty == true) {
         
         $('#NerdBob').hide();
-        $('#NerdBob').addClass('good-guy');
         $('#user-char').append(nerdBob.createImage());
+        $('#user-name').append(nerdBob.createName());
+        $('#user-hp').append(nerdBob.createHP());
+
+        for(var k in nerdBob) GoodGuy[k]=nerdBob[k];
+
+        console.log(GoodGuy);
 
         userCharEmpty = false;
     }
@@ -47,8 +62,10 @@ $('#NerdBob').on('click', function(){
         if (enemyCharEmpty == true){
            
             $('#NerdBob').hide();
-            $('#NerdBob').addClass('bad-guy');
             $('#enemy-char').append(nerdBob.createImage());
+            $('#enemy-name').append(nerdBob.createName());
+            $('#enemy-hp').append(nerdBob.createHP());
+            for(var k in nerdBob) BadGuy[k]=nerdBob[k];
 
             enemyCharEmpty = false;
         }
@@ -63,8 +80,10 @@ $('#DoodleBob').on('click', function(){
     if (userCharEmpty == true) {
 
         $('#DoodleBob').hide();
-        $('#DoodleBob').addClass('good-guy');
         $('#user-char').append(doodleBob.createImage());
+        $('#user-name').append(doodleBob.createName());
+        $('#user-hp').append(doodleBob.createHP());
+        for(var k in doodleBob) GoodGuy[k]=doodleBob[k];
 
         userCharEmpty = false;
     }
@@ -72,10 +91,14 @@ $('#DoodleBob').on('click', function(){
         if (enemyCharEmpty == true){
 
             $('#DoodleBob').hide();
-            $('#DoodleBob').addClass('bad-guy');
             $('#enemy-char').append(doodleBob.createImage());
+            $('#enemy-name').append(doodleBob.createName());
+            $('#enemy-hp').append(doodleBob.createHP());
+            for(var k in doodleBob) BadGuy[k]=doodleBob[k];
+            
 
             enemyCharEmpty = false;
+            console.log(BadGuy);
         }
         
     }
@@ -87,8 +110,10 @@ $('#ChickenBob').on('click', function(){
     if (userCharEmpty == true) {
 
         $('#ChickenBob').hide();
-        $('#ChickenBob').addClass('good-guy');
         $('#user-char').append(chickenBob.createImage());
+        $('#user-name').append(chickenBob.createName());
+        $('#user-hp').append(chickenBob.createHP());
+        for(var k in chickenBob) GoodGuy[k]=chickenBob[k];
 
         userCharEmpty = false;
     }
@@ -96,8 +121,10 @@ $('#ChickenBob').on('click', function(){
         if (enemyCharEmpty == true){
 
             $('#ChickenBob').hide();
-            $('#ChickenBob').addClass('bad-guy');
             $('#enemy-char').append(chickenBob.createImage());
+            $('#enemy-name').append(chickenBob.createName());
+            $('#enemy-hp').append(chickenBob.createHP());
+            for(var k in chickenBob) BadGuy[k]=chickenBob[k];
 
             userCharEmpty = false;
         }
@@ -111,8 +138,10 @@ $('#SkateBob').on('click', function(){
     if (userCharEmpty == true) {
 
         $('#SkateBob').hide();
-        $('#SkateBob').addClass('good-guy');
         $('#user-char').append(skateBob.createImage());
+        $('#user-name').append(skateBob.createName());
+        $('#user-hp').append(skateBob.createHP());
+        for(var k in skateBob) GoodGuy[k]=skateBob[k];
 
         userCharEmpty = false;
     }
@@ -120,8 +149,10 @@ $('#SkateBob').on('click', function(){
         if (enemyCharEmpty == true){
               
             $('#SkateBob').hide();
-            $('#SkateBob').addClass('bad-guy');
             $('#enemy-char').append(skateBob.createImage());
+            $('#enemy-name').append(skateBob.createName());
+            $('#enemy-hp').append(skateBob.createHP());
+            for(var k in skateBob) BadGuy[k]=skateBob[k];
             
             enemyCharEmpty = false;
         }
@@ -138,7 +169,29 @@ $('.char-image').on('click', function(){
 
 $('#attack-btn').on('click', function(){
     
+    GoodGuy.health -= BadGuy.attack;
+    BadGuy.health -= GoodGuy.attack;
+
+    if (GoodGuy.health > 0){
+        $('#user-hp').html(GoodGuy.health);
+        
+    }
+    else {
+        $('#user-hp').html(0);
+    }
+
+
+
+    if (BadGuy.health >= 0){
+        $('#enemy-hp').html(BadGuy.health);
+    }
+    else {
+        $('#enemy-hp').html(0);
+    }
+    
+    
 });
+
 
 
 });
